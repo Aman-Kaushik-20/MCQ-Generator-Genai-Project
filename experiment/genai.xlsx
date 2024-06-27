@@ -1,0 +1,6 @@
+,MCQ,Choices,Correct
+0,What is the focus of the workshop on Generative AI at AIMLSystems?,a: Building robots | b: Developing self-driving cars | c: Building and deploying Generative AI systems | d: Creating virtual reality games,c
+1,Which of the following is NOT a topic of interest for Generative AI discussed in the text?,a: Foundation models and their applications | b: Responsible Gen AI | c: Developing mobile applications | d: ML Ops for Gen AI,c
+2,What does Gen AI stand for in the text?,a: General Artificial Intelligence | b: Generation Artificial Intelligence | c: Genius Artificial Intelligence | d: Generating Artificial Intelligence,b
+3,"Which aspect of Generative AI covers concerns related to fairness, transparency, and accountability?",a: Learning from human preferences | b: Evaluation of foundation models | c: Responsible Gen AI | d: Large language model performance benchmarking,c
+4,"What kind of models have resulted in realistic text, images, and video according to the text?",a: Predictive models | b: Generative models | c: Classification models | d: Reinforcement learning models,b
