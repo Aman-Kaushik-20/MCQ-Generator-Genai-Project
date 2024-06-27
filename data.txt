@@ -1,0 +1,14 @@
+Recent progress in generative models have resulted in models that can produce realistic text, images and video that can potentially revolutionize the way humans work, create content and interact with machines. The workshop on Generative AI at AIMLSystems will focus on the entire life-cycle of building and deploying such Generative AI systems, including data collection and processing, developing systems and requisite infrastructure, applications it enables, and the ethics associated with such technology covering concerns related to fairness, transparency and accountability. We invite original, unpublished work on Artificial Intelligence with a focus on generative AI and their use cases. Specifically, the topics of interest include but are not limited to: 
+
+
+Systems, architecture and infrastructure for Gen AI
+Foundation models and their applications
+Multi-modal Gen AI 
+Retrieval Augmented Generated
+Gen AI based plugins and agents
+Learning from human preferences 
+Evaluation of foundation models
+ML Ops for Gen AI
+Instruction tuning and instruction following
+Responsible Gen AI
+Large language model performance benchmarking
