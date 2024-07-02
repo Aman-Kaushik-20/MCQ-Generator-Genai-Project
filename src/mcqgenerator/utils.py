@@ -26,6 +26,8 @@ def read_file(file):
 
 def get_table_data(quiz_str):
     try:
+        if not quiz_str:
+            raise ValueError("Empty or None quiz_str provided")
         # convert the quiz from a str to dict
         quiz_dict=json.loads(quiz_str)
         quiz_table_data=[]
@@ -44,7 +46,10 @@ def get_table_data(quiz_str):
             quiz_table_data.append({"MCQ": mcq,"Choices": options, "Correct": correct})
         
         return quiz_table_data
-        
+    
+    except json.JSONDecodeError as e:
+        traceback.print_exception(type(e), e, e.__traceback__)
+        return None  # Handle JSON decoding errors
     except Exception as e:
         traceback.print_exception(type(e), e, e.__traceback__)
         return False
