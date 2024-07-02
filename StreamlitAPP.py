@@ -53,7 +53,8 @@ with st.form("User Input"):
                 print(f"Totel Cost :{cb.total_cost}")
                 if isinstance(response, dict):
                     #extract The Quiz data from the response
-                    quiz=response.get("quiz", None)
+                  #  quiz=response.get("quiz", None)
+                    quiz=json.loads(response["quiz"])
                     if quiz is not None:
                         table_data=get_table_data(quiz)
                         if table_data is not None:
