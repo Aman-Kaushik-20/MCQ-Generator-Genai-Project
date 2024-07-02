@@ -18,15 +18,14 @@ load_dotenv()
 # Access the environment variables just like you would with os.environ
 key=os.getenv("OPENAI_API_KEY")
 
-
+print("Key of openai api is : ")
 print(key)
+
 
 llm = ChatOpenAI(openai_api_key=key,model_name="gpt-3.5-turbo", temperature=0.7)
 
 with open(r"C:\Users\Aman\Desktop\genai MCQ Project\MCQ-Generator-Genai-Project\Response.json", "r") as f:
     RESPONSE_JSON=json.load(f)
-
-print(RESPONSE_JSON)
 
 
 TEMPLATE="""
