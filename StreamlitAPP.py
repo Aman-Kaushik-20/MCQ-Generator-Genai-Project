@@ -13,7 +13,7 @@ with open(r"Response.json", "r") as f:
     RESPONSE_JSON=json.load(f)
 
 
-st.title(" MCQs Generator Application With Langchain ")
+st.title(" MCQs Generator Application With Langchain (For Code Jr. -By Aman Kaushik) ")
 
 with st.form("User Input"):
     uploaded_file=st.file_uploader("Upload PDF or Text File :")
