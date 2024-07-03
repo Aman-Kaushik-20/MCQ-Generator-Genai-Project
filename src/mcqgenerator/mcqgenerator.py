@@ -16,7 +16,7 @@ from langchain.chains import SequentialChain
 load_dotenv()
 
 # Access the environment variables just like you would with os.environ
-key=os.getenv("OPENAI_API_KEY")
+key=os.getenv("OPENAI_KEY") 
 
 print("Key of openai api is : ")
 print(key)
@@ -33,9 +33,9 @@ Text:{text}
 You are an expert MCQ maker. Given the above text, it is your job to \
 create a quiz  of {number} multiple choice questions for {subject} students in {tone} tone. 
 Make sure the questions are not repeated and check all the questions to be conforming the text as well.
-Make sure to format your response(answer) like  RESPONSE_JSON below  and use it as a guide. \
+Make sure to format your response like  RESPONSE_JSON below  and use it as a guide. \
 Ensure to make {number} MCQs
-### RESPONSE_JSON
+### RESPONSE_JSON format is given below--
 {RESPONSE_JSON}
 
 """
