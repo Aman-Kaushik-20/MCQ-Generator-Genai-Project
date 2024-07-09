@@ -1,11 +1,10 @@
+# MCQ Generator Application With Langchain
 
-# MCQs Generator Application with Langchain
-
-This project is a Streamlit-based web application designed to generate and evaluate multiple-choice questions (MCQs) using Langchain. The application accepts PDF or text files and generates MCQs based on the input content.
-
+This project is a Streamlit-based web application designed to generate multiple choice questions (MCQs) using Langchain and OpenAI's GPT-3.5-turbo model. The application reads text from uploaded files, generates MCQs based on the text, and evaluates the complexity of the generated questions.
 
 
 ![image](https://github.com/Aman-Kaushik-20/MCQ-Generator-Genai-Project/assets/143441723/533bf58d-ed87-440b-bc65-417afe53845f)
+
 
 ## Table of Contents
 
@@ -19,17 +18,17 @@ This project is a Streamlit-based web application designed to generate and evalu
 
 ## Features
 
-- **Streamlit Web Interface**: For uploading files and generating MCQs.
-- **PDF and Text File Support**: Allows users to upload PDF or text files for MCQ generation.
-- **Langchain Integration**: For handling language model prompts and responses.
-- **Token and Cost Tracking**: Tracks the tokens used and the cost of API calls.
+- **Streamlit Web Framework**: For creating the web interface.
+- **Langchain Integration**: For handling prompt templates and language model interactions.
+- **OpenAI GPT-3.5-turbo**: For generating and evaluating MCQs.
+- **Pandas**: For displaying the generated MCQs in a tabular format.
 
 ## Installation
 
 1. **Clone the repository**:
    ```sh
-   git clone https://github.com/yourusername/mcq-generator-langchain.git
-   cd mcq-generator-langchain
+   git clone https://github.com/yourusername/mcq-generator.git
+   cd mcq-generator
    ```
 
 2. **Install the required packages**:
@@ -46,8 +45,7 @@ This project is a Streamlit-based web application designed to generate and evalu
 Create a `.env` file in the root directory and add the following variables:
 
 ```
-# Example
-OPENAI_API_KEY=your_openai_api_key
+OPENAI_KEY=your_openai_api_key
 ```
 
 ## Usage
@@ -63,29 +61,29 @@ OPENAI_API_KEY=your_openai_api_key
 ## File Structure
 
 ```
-mcq-generator-langchain/
+mcq-generator/
 │
 ├── src/
-│   └── mcqgenerator/
-│       ├── utils.py             # Utility functions for file reading and table data extraction
-│       ├── mcqgenerator.py      # Function to generate and evaluate MCQs
-│       └── logger.py            # Logger setup
+│   ├── mcqgenerator/
+│   │   ├── __init__.py
+│   │   ├── utils.py          # Contains helper functions
+│   │   ├── mcqgenerator.py   # Contains the SequentialChain setup
+│   │   ├── logger.py         # Contains logging setup
 │
-├── .env                         # Environment variables file
-├── app.py                       # Main application file
-├── Response.json                # JSON file with predefined responses
-├── requirements.txt             # List of Python packages required
-└── README.md                    # This README file
+├── Response.json             # JSON file with response format
+├── .env                      # Environment variables file
+├── app.py                    # Main application file
+├── requirements.txt          # List of Python packages required
+└── README.md                 # This README file
 ```
 
 ## Dependencies
 
-- **Streamlit**: Web framework for creating interactive web applications.
-- **Pandas**: Data manipulation and analysis.
-- **Langchain**: For handling language model prompts and responses.
+- **Streamlit**: Web framework for interactive applications.
+- **Langchain**: For handling prompt templates and chains.
+- **OpenAI**: For GPT-3.5-turbo model access.
+- **Pandas**: For data manipulation and display.
 - **dotenv**: For loading environment variables.
-- **json**: For handling JSON data.
-- **traceback**: For error handling and debugging.
 
 ## License
 
@@ -108,14 +106,14 @@ from src.mcqgenerator.mcqgenerator import generate_evaluate_chain
 from src.mcqgenerator.logger import logging
 ```
 
-### Loading Predefined Responses
+### Loading JSON Response Template
 
 ```python
 with open(r"Response.json", "r") as f:
     RESPONSE_JSON = json.load(f)
 ```
 
-### Streamlit Application
+### Streamlit UI Setup
 
 ```python
 st.title("MCQs Generator Application With Langchain (For Code Jr. - By Aman Kaushik)")
@@ -165,6 +163,84 @@ with st.form("User Input"):
                             st.error("ERROR in the table data")
                     else:
                         st.write(response)
+```
+
+### Environment Variable Loading
+
+```python
+load_dotenv()
+key = os.getenv("OPENAI_KEY")
+print("Key of OpenAI API is: ")
+print(key)
+```
+
+### Language Model Setup
+
+```python
+from langchain_community.chat_models import ChatOpenAI
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.chains import SequentialChain
+
+llm = ChatOpenAI(openai_api_key=key, model_name="gpt-3.5-turbo", temperature=0.7)
+
+with open(r"Response.json", "r") as f:
+    RESPONSE_JSON = json.load(f)
+```
+
+### Prompt Template for Quiz Generation
+
+```python
+TEMPLATE = """
+Text: {text}
+You are an expert MCQ maker. Given the above text, it is your job to \
+create a quiz of {number} multiple choice questions for {subject} students in {tone} tone. 
+Make sure the questions are not repeated and check all the questions to be conforming the text as well.
+Make sure to format your response like RESPONSE_JSON below and use it as a guide. \
+Ensure to make {number} MCQs
+### RESPONSE_JSON format is given below--
+{RESPONSE_JSON}
+"""
+
+quiz_generation_prompt = PromptTemplate(
+    input_variables=["text", "number", "subject", "tone", "RESPONSE_JSON"],
+    template=TEMPLATE
+)
+
+quiz_chain = LLMChain(llm=llm, prompt=quiz_generation_prompt, output_key='quiz', verbose=True)
+```
+
+### Prompt Template for Quiz Evaluation
+
+```python
+TEMPLATE2 = """
+You are an expert English grammarian and writer. Given a Multiple Choice Quiz for {subject} students,\
+you need to evaluate the complexity of the questions and give a complete analysis of the quiz. Only use at max 50 words for complexity analysis. 
+If the quiz is not at par with the cognitive and analytical abilities of the students,\
+update the quiz questions which need to be changed and change the tone such that it perfectly fits the student's abilities.
+Quiz_MCQs:
+{quiz}
+
+Check from an expert English writer of the above quiz:
+"""
+
+quiz_evaluation_prompt = PromptTemplate(
+    input_variables=["subject", "quiz"],
+    template=TEMPLATE2
+)
+
+review_chain = LLMChain(llm=llm, prompt=quiz_evaluation_prompt, output_key='review', verbose=True)
+```
+
+### Sequential Chain Setup
+
+```python
+generate_evaluate_chain = SequentialChain(
+    chains=[quiz_chain, review_chain],
+    input_variables=["text", "number", "subject", "tone", "RESPONSE_JSON"],
+    output_variables=["quiz", "review"],
+    verbose=True,
+)
 ```
 
 This README file includes all the necessary details to understand, install, and run the project effectively.
