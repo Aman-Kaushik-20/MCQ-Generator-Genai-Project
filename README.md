@@ -5,6 +5,9 @@ This project is a Streamlit-based web application designed to generate multiple 
 
 ![image](https://github.com/Aman-Kaushik-20/MCQ-Generator-Genai-Project/assets/143441723/533bf58d-ed87-440b-bc65-417afe53845f)
 
+# Running Tutorial -
+link - https://drive.google.com/file/d/1k9SCSg5TjSpFNWf6a127sC7CIQO2MlJY/view?usp=sharing
+
 
 ## Table of Contents
 
